@@ -27,6 +27,15 @@ def main():
     table.add_row("Dec 16, 2016", "Rogue One: A Star Wars Story", "$1,332,519,889")
     console.print(table)
     
+    table2 = Table(title="Dune Movies")
+    table2.add_column("Released", style="cyan")
+    table2.add_column("Title", style="magenta")
+    table2.add_column("Released", style="green")
+    
+    table2.add_row("Dec 20, 2022", "Dune Part 1", "$952,100,678")
+    table2.add_row("May 25, 2024", "Dune Part 2", "$1,352,100,678")
+    console.print(table2)
+    
     
     
 
