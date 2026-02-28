@@ -9,16 +9,14 @@ from rich.table import Table
 import random
 
 
-from textual.widgets import ListView, ListItem, Label
+from textual.widgets import ListView, ListItem, Label, Button
 
 class ToolsPanel(ListView):
-
     def on_mount(self) -> None:
-        self.append(ListItem(Label("📊 Generate Random Data")))
-        self.append(ListItem(Label("📈 Show Statistics")))
-        self.append(ListItem(Label("🔥 Simulate Process")))
-        self.append(ListItem(Label("🧹 Clear Results")))
-
+        self.append(ListItem(Label("📊 Generate Random Data"), id="gen_data"))
+        self.append(ListItem(Label("📈 Show Statistics"), id="stats"))
+        self.append(ListItem(Label("🔥 Simulate Process"), id="simulate"))
+        self.append(ListItem(Label("🧹 Clear Results"), id="clear"))
 class VisualizationPanel(Static):
     def show_chart(self):
         table = Table(title="Random Data Visualization")
@@ -91,24 +89,24 @@ class DashboardApp(App):
         yield Footer()
 
     def on_list_view_selected(self, event: ListView.Selected) -> None:
-        tool_name = event.item.query_one(Label).renderable
-
+        selection = event.item.id
+        
         visualization = self.query_one("#visualization", VisualizationPanel)
         results = self.query_one("#results", ResultsPanel)
 
-        if "Generate Random Data" in tool_name:
+        if selection == "gen_data":
             visualization.show_chart()
             results.log("Random data generated.")
 
-        elif "Show Statistics" in tool_name:
+        elif selection == "stats":
             visualization.show_stats()
             results.log("Statistics calculated.")
 
-        elif "Simulate Process" in tool_name:
+        elif selection == "simulate":
             visualization.show_process()
             results.log("Process simulation completed.")
 
-        elif "Clear Results" in tool_name:
+        elif selection == "clear":
             visualization.update("Cleared.")
             results.log("Results cleared.")
 
